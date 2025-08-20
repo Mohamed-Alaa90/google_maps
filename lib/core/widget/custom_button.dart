@@ -1,37 +1,52 @@
-import 'package:easy_loading_button/easy_loading_button.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps/core/constant/my_colors.dart';
 
 class CustomButton extends StatelessWidget {
   const CustomButton({
     super.key,
     required this.label,
     required this.onTap,
+    this.width,
+    this.height,
+    this.color,
+    this.textStyle,
+    this.enabled = true,
   });
 
   final String label;
-  final Future<void> Function() onTap;
+  final void Function()? onTap;
+  final double? width;
+  final double? height;
+  final Color? color;
+  final TextStyle? textStyle;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
-    return EasyButton(
-      idleStateWidget: Text(
-        label,
-        style: const TextStyle(
-          color: Colors.white,
-          fontWeight: FontWeight.bold,
-          fontSize: 16,
+    final theme = Theme.of(context);
+
+    return InkWell(
+      onTap: enabled ? onTap : null,
+      borderRadius: BorderRadius.circular(15),
+      child: Container(
+        width: width,
+        height: height,
+        padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+        decoration: BoxDecoration(
+          color: enabled ? (color ?? theme.primaryColor) : Colors.grey,
+          borderRadius: BorderRadius.circular(15),
+        ),
+        alignment: Alignment.center,
+        child: Text(
+          label,
+          style:
+              textStyle ??
+              const TextStyle(
+                color: Colors.white,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
         ),
       ),
-      loadingStateWidget: const CircularProgressIndicator(
-        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-      ),
-      useEqualLoadingStateWidgetDimension: true,
-      width: double.infinity,
-      height: 50,
-      borderRadius: 12,
-      buttonColor: MyColors.kGreen,
-      onPressed: onTap,
     );
   }
 }

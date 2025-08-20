@@ -6,27 +6,31 @@ class CustomTextField extends StatelessWidget {
     super.key,
     this.hintText,
     required this.textEditingController,
-    this.prefix, this.keyboardType,
+    this.prefix,
+    this.keyboardType,
+    this.validator,
   });
   final String? hintText;
   final TextEditingController textEditingController;
   final String? prefix;
   final TextInputType? keyboardType;
-
+  final String? Function(String?)? validator;
   @override
   Widget build(BuildContext context) {
-    return TextField(
+    final w = MediaQuery.of(context).size.width;
+
+    return TextFormField(
       cursorColor: MyColors.kGreen,
       controller: textEditingController,
-      keyboardType: keyboardType ,
+      keyboardType: keyboardType,
+      validator: validator,
       decoration: InputDecoration(
-        prefix: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8),
-          child: Text(
-            prefix ?? "",
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-          ),
+        hintStyle: TextStyle(
+          fontSize: w * 0.04,
+          fontWeight: FontWeight.bold,
+          color: MyColors.kGreen,
         ),
+
         hintText: hintText,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(12),
